@@ -62,7 +62,7 @@ Action "set_color_label" has the following the following keys:
 
 - key `value`: set color label  
   value: transparent | cyan | green | yellow | orange | brown | red |
-    purple | gray
+    purple | gray  
   type: str  
   note: when omitting value it defaults to transparent
 
