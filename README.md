@@ -11,6 +11,15 @@ Interpolation is allowed via `%(value)s`.
 Copy `action.py` contents to builtin Krita Python editor accessible via
 *Tools -> Scripts -> Scripter* and run it.
 
+It's possible to write config in YAML and [convert][converter] it to INI.
+The benefit is to have IntelliSence enabled from [JSON schema][schema].
+To be able to use IntelliSence hints in YAML add
+`# yaml-language-server: $schema=https://raw.githubusercontent.com/EmilyGraceSeville7cf/krita-action/main/action.json`
+as the first string.
+
+[converter]: https://marketplace.visualstudio.com/items?itemName=petli-full.json-to-yaml-and-more
+[schema]: https://github.com/EmilyGraceSeville7cf/krita-action/blob/main/action.json
+
 ## General keys
 
 Each section name is a user friendly description of your action shown
