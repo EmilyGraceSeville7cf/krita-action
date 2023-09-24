@@ -6,7 +6,7 @@ Interpolation is allowed via `%(value)s`.
 
 [parser]: https://docs.python.org/3/library/configparser.html
 
-# How to use
+## How to use
 
 Copy `action.py` contents to builtin Krita Python editor accessible via
 *Tools -> Scripts -> Scripter* and run it.
