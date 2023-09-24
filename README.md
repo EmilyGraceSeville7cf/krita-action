@@ -110,3 +110,16 @@ type=set_color_label
 include_names=red
 value=%(include_names)s
 ```
+
+The same code can be represented in YAML:
+
+```yaml
+# yaml-language-server: $schema=https://raw.githubusercontent.com/EmilyGraceSeville7cf/krita-action/main/action.json
+Change color labels to red for all layers with "red" word inside them:
+  type: set_color_label
+  include_names: red
+  value: "%(include_names)s"
+```
+
+Note that script doesn't read YAML config, so you must convert it back to INI
+to make it readable.
