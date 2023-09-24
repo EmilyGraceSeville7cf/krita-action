@@ -1,0 +1,57 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "regex": {
+            "type": "string",
+            "minLength": 1,
+            "examples": [".*", "^$"]
+        }
+    },
+    "title": "action",
+    "description": "Action settings\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
+    "type": "object",
+    "patternProperties": {
+        ".": {
+            "title": "action",
+            "description": "Action settings\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "type": {
+                    "title": "type",
+                    "description": "An action type\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
+                    "type": "string",
+                    "enum": [
+                        "set_alpha_locked",
+                        "set_blending_mode",
+                        "set_collapsed",
+                        "set_color_label",
+                        "set_name",
+                        "set_opacity",
+                        "set_pinned_to_timeline",
+                        "set_visible"
+                    ]
+                },
+                "include_names": {
+                    "title": "include names",
+                    "description": "A regex for filtering layers\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
+                    "$ref": "#/definitions/regex"
+                    
+                },
+                "exclude_names": {
+                    "title": "exclude names",
+                    "description": "A regex for filtering layers out\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
+                    "$ref": "#/definitions/regex"
+                },
+                "value": {
+                    "title": "value",
+                    "description": "An action parameter\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
+                    "type": ["boolean", "number", "string"]
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}
