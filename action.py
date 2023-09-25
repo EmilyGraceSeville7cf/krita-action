@@ -219,11 +219,11 @@ def execute_actions(actions, nodes):
         if children != []:
             execute_actions(actions, children)
 
-def main():
-    actions = read_config(config_path)
-    if actions is None:
-        return
-    
+def main():    
     document = krita.Krita.instance().activeDocument()
     if error_when_not(document is not None, "document should be opened"):
+        actions = read_config(config_path)
+        if actions is None:
+            return
+        
         execute_actions(actions, document.topLevelNodes())
