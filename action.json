@@ -4,7 +4,68 @@
         "regex": {
             "type": "string",
             "minLength": 1,
-            "examples": [".*", "^$"]
+            "examples": [
+                ".*",
+                "^$"
+            ]
+        },
+        "types": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(paint|vector|group|clone|filter|fill|file)(,(paint|vector|group|clone|filter|fill|file))*$",
+            "examples": [
+                "paint",
+                "paint,vector"
+            ]
+        },
+        "type-property": {
+            "title": "type",
+            "description": "An action type\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
+            "type": "string",
+            "enum": [
+                "set_alpha_locked",
+                "set_blending_mode",
+                "set_collapsed",
+                "set_color_label",
+                "set_name",
+                "set_opacity",
+                "set_pinned_to_timeline",
+                "set_visible",
+                "remove",
+                "set_position",
+                "add_position",
+                "multiply_position",
+                "add_rotation",
+                "toggle_alpha_locked",
+                "toggle_collapsed",
+                "toggle_opacity",
+                "toggle_pinned_to_timeline",
+                "toggle_visible"
+            ]
+        },
+        "include-names-property": {
+            "title": "include names",
+            "description": "A regex for filtering layers\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
+            "$ref": "#/definitions/regex"
+        },
+        "exclude-names-property": {
+            "title": "exclude names",
+            "description": "A regex for filtering layers out\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
+            "$ref": "#/definitions/regex"
+        },
+        "include-types-property": {
+            "title": "include types",
+            "description": "Types for filtering layers\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
+            "$ref": "#/definitions/types"
+        },
+        "exclude-types-property": {
+            "title": "exclude types",
+            "description": "Types for filtering layers out\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
+            "$ref": "#/definitions/types"
+        },
+        "value": {
+            "title": "value",
+            "description": "An action parameter\nhttps://github.com/EmilyGraceSeville7cf/krita-action"
         }
     },
     "title": "action",
@@ -20,37 +81,333 @@
             ],
             "properties": {
                 "type": {
-                    "title": "type",
-                    "description": "An action type\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
-                    "type": "string",
-                    "enum": [
-                        "set_alpha_locked",
-                        "set_blending_mode",
-                        "set_collapsed",
-                        "set_color_label",
-                        "set_name",
-                        "set_opacity",
-                        "set_pinned_to_timeline",
-                        "set_visible"
-                    ]
+                    "$ref": "#/definitions/type-property"
                 },
                 "include_names": {
-                    "title": "include names",
-                    "description": "A regex for filtering layers\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
-                    "$ref": "#/definitions/regex"
-                    
+                    "$ref": "#/definitions/include-names-property"
                 },
                 "exclude_names": {
-                    "title": "exclude names",
-                    "description": "A regex for filtering layers out\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
-                    "$ref": "#/definitions/regex"
+                    "$ref": "#/definitions/exclude-names-property"
+                },
+                "include_types": {
+                    "$ref": "#/definitions/include-types-property"
+                },
+                "exclude_types": {
+                    "$ref": "#/definitions/exclude-types-property"
                 },
                 "value": {
-                    "title": "value",
-                    "description": "An action parameter\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
-                    "type": ["boolean", "number", "string"]
+                    "$ref": "#/definitions/value"
                 }
-            }
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "pattern": "^(set_alpha_locked|set_collapsed|set_pinned_to_timeline|set_visible)$"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/type-property"
+                            },
+                            "include_names": {
+                                "$ref": "#/definitions/include-names-property"
+                            },
+                            "exclude_names": {
+                                "$ref": "#/definitions/exclude-names-property"
+                            },
+                            "include_types": {
+                                "$ref": "#/definitions/include-types-property"
+                            },
+                            "exclude_types": {
+                                "$ref": "#/definitions/exclude-types-property"
+                            },
+                            "value": {
+                                "$ref": "#/definitions/value",
+                                "type": "boolean"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "set_blending_mode"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/type-property"
+                            },
+                            "include_names": {
+                                "$ref": "#/definitions/include-names-property"
+                            },
+                            "exclude_names": {
+                                "$ref": "#/definitions/exclude-names-property"
+                            },
+                            "include_types": {
+                                "$ref": "#/definitions/include-types-property"
+                            },
+                            "exclude_types": {
+                                "$ref": "#/definitions/exclude-types-property"
+                            },
+                            "value": {
+                                "$ref": "#/definitions/value",
+                                "type": "string",
+                                "enum": [
+                                    "addition",
+                                    "+",
+                                    "burn",
+                                    "color",
+                                    "color_dodge",
+                                    "darken",
+                                    "divide",
+                                    "/",
+                                    "erase",
+                                    "lighten",
+                                    "luminosity",
+                                    "multiply",
+                                    "*",
+                                    "normal",
+                                    "overlay",
+                                    "saturation",
+                                    "screen",
+                                    "soft_light"
+                                ]
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "set_color_label"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/type-property"
+                            },
+                            "include_names": {
+                                "$ref": "#/definitions/include-names-property"
+                            },
+                            "exclude_names": {
+                                "$ref": "#/definitions/exclude-names-property"
+                            },
+                            "include_types": {
+                                "$ref": "#/definitions/include-types-property"
+                            },
+                            "exclude_types": {
+                                "$ref": "#/definitions/exclude-types-property"
+                            },
+                            "value": {
+                                "$ref": "#/definitions/value",
+                                "type": "string",
+                                "enum": [
+                                    "transparent",
+                                    "cyan",
+                                    "green",
+                                    "yellow",
+                                    "orange",
+                                    "brown",
+                                    "red",
+                                    "purple",
+                                    "gray"
+                                ]
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "set_name"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/type-property"
+                            },
+                            "include_names": {
+                                "$ref": "#/definitions/include-names-property"
+                            },
+                            "exclude_names": {
+                                "$ref": "#/definitions/exclude-names-property"
+                            },
+                            "include_types": {
+                                "$ref": "#/definitions/include-types-property"
+                            },
+                            "exclude_types": {
+                                "$ref": "#/definitions/exclude-types-property"
+                            },
+                            "value": {
+                                "$ref": "#/definitions/value",
+                                "type": "string",
+                                "minLength": 1,
+                                "examples": [
+                                    "Paint layer",
+                                    "Background"
+                                ]
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "set_opacity"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/type-property"
+                            },
+                            "include_names": {
+                                "$ref": "#/definitions/include-names-property"
+                            },
+                            "exclude_names": {
+                                "$ref": "#/definitions/exclude-names-property"
+                            },
+                            "include_types": {
+                                "$ref": "#/definitions/include-types-property"
+                            },
+                            "exclude_types": {
+                                "$ref": "#/definitions/exclude-types-property"
+                            },
+                            "value": {
+                                "$ref": "#/definitions/value",
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "pattern": "^(remove|toggle_alpha_locked|toggle_collapsed|toggle_opacity|toggle_pinned_to_timeline|toggle_visible)$"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/type-property"
+                            },
+                            "include_names": {
+                                "$ref": "#/definitions/include-names-property"
+                            },
+                            "exclude_names": {
+                                "$ref": "#/definitions/exclude-names-property"
+                            },
+                            "include_types": {
+                                "$ref": "#/definitions/include-types-property"
+                            },
+                            "exclude_types": {
+                                "$ref": "#/definitions/exclude-types-property"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "pattern": "^(set_position|add_position|multiply_position)$"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/type-property"
+                            },
+                            "include_names": {
+                                "$ref": "#/definitions/include-names-property"
+                            },
+                            "exclude_names": {
+                                "$ref": "#/definitions/exclude-names-property"
+                            },
+                            "include_types": {
+                                "$ref": "#/definitions/include-types-property"
+                            },
+                            "exclude_types": {
+                                "$ref": "#/definitions/exclude-types-property"
+                            },
+                            "value": {
+                                "$ref": "#/definitions/value",
+                                "type": "string",
+                                "pattern": "^[-+]?\\d+,[-+]?\\d+$",
+                                "examples": [
+                                    "100,100"
+                                ],
+                                "default": "0,0"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "add_rotation"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/type-property"
+                            },
+                            "include_names": {
+                                "$ref": "#/definitions/include-names-property"
+                            },
+                            "exclude_names": {
+                                "$ref": "#/definitions/exclude-names-property"
+                            },
+                            "include_types": {
+                                "$ref": "#/definitions/include-types-property"
+                            },
+                            "exclude_types": {
+                                "$ref": "#/definitions/exclude-types-property"
+                            },
+                            "value": {
+                                "$ref": "#/definitions/value",
+                                "type": "number",
+                                "examples": [
+                                    100
+                                ],
+                                "default": 0
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                }
+            ]
         }
     },
     "additionalProperties": false
