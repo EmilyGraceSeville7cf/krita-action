@@ -63,6 +63,16 @@
             "description": "Types for filtering layers out\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
             "$ref": "#/definitions/types"
         },
+        "combiner-property": {
+            "title": "combiner",
+            "description": "A condition combiner\nhttps://github.com/EmilyGraceSeville7cf/krita-action",
+            "type": "string",
+            "enum": [
+                "and",
+                "or"
+            ],
+            "default": "and"
+        },
         "value": {
             "title": "value",
             "description": "An action parameter\nhttps://github.com/EmilyGraceSeville7cf/krita-action"
@@ -95,6 +105,9 @@
                 "exclude_types": {
                     "$ref": "#/definitions/exclude-types-property"
                 },
+                "combiner": {
+                    "$ref": "#/definitions/combiner-property"
+                },
                 "value": {
                     "$ref": "#/definitions/value"
                 }
@@ -124,6 +137,9 @@
                             },
                             "exclude_types": {
                                 "$ref": "#/definitions/exclude-types-property"
+                            },
+                            "combiner": {
+                                "$ref": "#/definitions/combiner-property"
                             },
                             "value": {
                                 "$ref": "#/definitions/value",
@@ -157,6 +173,9 @@
                             },
                             "exclude_types": {
                                 "$ref": "#/definitions/exclude-types-property"
+                            },
+                            "combiner": {
+                                "$ref": "#/definitions/combiner-property"
                             },
                             "value": {
                                 "$ref": "#/definitions/value",
@@ -211,6 +230,9 @@
                             "exclude_types": {
                                 "$ref": "#/definitions/exclude-types-property"
                             },
+                            "combiner": {
+                                "$ref": "#/definitions/combiner-property"
+                            },
                             "value": {
                                 "$ref": "#/definitions/value",
                                 "type": "string",
@@ -255,6 +277,9 @@
                             "exclude_types": {
                                 "$ref": "#/definitions/exclude-types-property"
                             },
+                            "combiner": {
+                                "$ref": "#/definitions/combiner-property"
+                            },
                             "value": {
                                 "$ref": "#/definitions/value",
                                 "type": "string",
@@ -293,6 +318,9 @@
                             "exclude_types": {
                                 "$ref": "#/definitions/exclude-types-property"
                             },
+                            "combiner": {
+                                "$ref": "#/definitions/combiner-property"
+                            },
                             "value": {
                                 "$ref": "#/definitions/value",
                                 "type": "number",
@@ -327,6 +355,9 @@
                             },
                             "exclude_types": {
                                 "$ref": "#/definitions/exclude-types-property"
+                            },
+                            "combiner": {
+                                "$ref": "#/definitions/combiner-property"
                             }
                         },
                         "additionalProperties": false
@@ -356,6 +387,9 @@
                             },
                             "exclude_types": {
                                 "$ref": "#/definitions/exclude-types-property"
+                            },
+                            "combiner": {
+                                "$ref": "#/definitions/combiner-property"
                             },
                             "value": {
                                 "$ref": "#/definitions/value",
@@ -394,6 +428,9 @@
                             },
                             "exclude_types": {
                                 "$ref": "#/definitions/exclude-types-property"
+                            },
+                            "combiner": {
+                                "$ref": "#/definitions/combiner-property"
                             },
                             "value": {
                                 "$ref": "#/definitions/value",
