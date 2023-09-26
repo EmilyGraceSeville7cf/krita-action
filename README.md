@@ -31,8 +31,11 @@ while executing script. Each action has the following the following keys:
 - key `type` (required): action type  
   type: str  
   value: set_alpha_locked | set_blending_mode | set_collapsed |
-    set_color_label | set_name | set_opacity |
-    set_pinned_to_timeline | set_visible  
+    set_color_label | set_name | set_opacity | set_pinned_to_timeline |
+    set_visible | remove | set_position | add_position |
+    multiply_position | add_rotation | toggle_alpha_locked |
+    toggle_collapsed | toggle_opacity | toggle_pinned_to_timeline |
+    toggle_visible  
 - key `include_names`: Python regex for filtering layers by name affected by
     action  
   type: str  
