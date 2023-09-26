@@ -45,6 +45,18 @@ while executing script. Each action has the following the following keys:
   type: str  
   default: None  
   note: this key filters out layers matched by include_names
+- key `include_types`: type list for filtering layers by type affected by
+    action  
+  type: str  
+  default: paint,vector,group,clone,filter,fill,file
+- key `exclude_types`: type list for filtering layers by type not affected
+    by action  
+  type: str  
+  default: None  
+  note: this key filters out layers matched by include_types
+- key `combiner`: filter condition combiner  
+  type: str  
+  value: and | or  
 - key `value`: value to set layer property like transparency to  
   type (depends on action type): bool | int | float | str
 
