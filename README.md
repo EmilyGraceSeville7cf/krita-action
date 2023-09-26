@@ -150,7 +150,7 @@ Action "toggle_visible" has no keys
 
 ## Examples
 
-## Change color labels
+### Change color labels
 
 ```ini
 [Change color labels to red for all layers with "red" word inside them]
@@ -172,7 +172,7 @@ Change color labels to red for all layers with "red" word inside them:
 Note that script doesn't read YAML config, so you must convert it back to INI
 to make it readable.
 
-## Remove vector layers
+### Remove vector layers
 
 ```ini
 [Remove all vector layers]
