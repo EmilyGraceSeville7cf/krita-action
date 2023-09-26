@@ -102,7 +102,50 @@ Action "set_visible" has the following the following keys:
   type: bool  
   note: when omitting value it defaults to true
 
+Action "remove" has the following the following keys:
+
+- key `value`: whether to remove layer  
+  value: true | false  
+  type: bool  
+  note: when omitting value it defaults to false
+
+Action "set_position" has the following the following keys:
+
+- key `value`: set layer position  
+  type: str  
+  note: when omitting value it defaults to 0,0
+
+Action "add_position" has the following the following keys:
+
+- key `value`: add layer position  
+  type: str  
+  note: when omitting value it defaults to 0,0
+
+Action "multiply_position" has the following the following keys:
+
+- key `value`: multiply layer position  
+  type: str  
+  note: when omitting value it defaults to 0,0
+
+Action "add_rotation" has the following the following keys:
+
+- key `value`: add layer rotation  
+  type: float  
+  note: when omitting value it defaults to 0.0
+
+Action "toggle_alpha_locked" has no keys
+
+Action "toggle_collapsed" has no keys
+
+Action "toggle_opacity" has no keys
+
+Action "toggle_pinned_to_timeline" has no keys
+
+Action "toggle_visible" has no keys
+
 ## Examples
+
+## Change color labels
 
 ```ini
 [Change color labels to red for all layers with "red" word inside them]
@@ -123,3 +166,20 @@ Change color labels to red for all layers with "red" word inside them:
 
 Note that script doesn't read YAML config, so you must convert it back to INI
 to make it readable.
+
+## Remove vector layers
+
+```ini
+[Remove all vector layers]
+type=remove
+include_types=vector
+```
+
+The same code can be represented in YAML:
+
+```yaml
+# yaml-language-server: $schema=https://raw.githubusercontent.com/EmilyGraceSeville7cf/krita-action/main/action.json
+Remove all vector layers:
+  type: remove
+  include_types: vector
+```
