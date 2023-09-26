@@ -86,7 +86,7 @@ class Action:
         is_excluded_by_type = type in self._exclude_types
         
         is_included_by_name = is_included_by_name and not is_excluded_by_name
-        is_included_by_name = is_included_by_type and not is_excluded_by_type
+        is_included_by_type = is_included_by_type and not is_excluded_by_type
         
         if self._combiner([is_included_by_name, is_included_by_type]):
             info(f"action '{self._description}' has been executed over '{name}' layer")
@@ -180,6 +180,58 @@ class SetVisibleAction(Action):
         raise_when_not_type("value", value, bool)
         layer.setVisible(value)
 
+class RemoveAction(Action):
+    def _execute(self, layer):
+        value = False if "value" not in self._parameters else self._parameters["value"]
+        raise_when_not_type("value", value, bool)
+        layer.remove()
+
+class SetPositionAction(Action):
+    def _execute(self, layer):
+        value = (0, 0) if "value" not in self._parameters else self._parameters["value"]
+        raise_when_not_type("value", value, tuple)
+        layer.move(value[0], value[1])
+
+class AddPositionAction(Action):
+    def _execute(self, layer):
+        value = (0, 0) if "value" not in self._parameters else self._parameters["value"]
+        raise_when_not_type("value", value, tuple)
+        position = layer.position()
+        layer.move(position.x() + value[0], position.y() + value[1])
+
+class MultiplyPositionAction(Action):
+    def _execute(self, layer):
+        value = (0, 0) if "value" not in self._parameters else self._parameters["value"]
+        raise_when_not_type("value", value, tuple)
+        position = layer.position()
+        layer.move(position.x() * value[0], position.y() * value[1])
+
+class AddRotationAction(Action):
+    def _execute(self, layer):
+        value = 0 if "value" not in self._parameters else self._parameters["value"]
+        raise_when_not_type("value", value, float)
+        layer.rotateNode(value)
+
+class ToggleAlphaLockedAction(Action):
+    def _execute(self, layer):
+        layer.setAlphaLocked(not layer.alphaLocked())
+
+class ToggleCollapsedAction(Action):
+    def _execute(self, layer):
+        layer.setCollapsed(not layer.collapsed())
+
+class ToggleOpacityAction(Action):
+    def _execute(self, layer):
+        layer.setOpacity(int(255 - layer.opacity()))
+
+class TogglePinnedToTimelineAction(Action):
+    def _execute(self, layer):
+        layer.setPinnedToTimeline(not layer.pinnedToTimeline())
+
+class ToggleVisibleAction(Action):
+    def _execute(self, layer):
+        layer.setVisible(not layer.visible())
+
 def new_action(type, description, influence_parameters, parameters):
     if type == "set_alpha_locked":
         return SetAlphaLockedAction(description, influence_parameters, parameters)
@@ -197,13 +249,37 @@ def new_action(type, description, influence_parameters, parameters):
         return SetPinnedToTimelineAction(description, influence_parameters, parameters)
     elif type == "set_visible":
         return SetVisibleAction(description, influence_parameters, parameters)
-    
+    elif type == "remove":
+        return RemoveAction(description, influence_parameters, parameters)
+    elif type == "set_position":
+        return SetPositionAction(description, influence_parameters, parameters)
+    elif type == "add_position":
+        return AddPositionAction(description, influence_parameters, parameters)
+    elif type == "multiply_position":
+        return MultiplyPositionAction(description, influence_parameters, parameters)
+    elif type == "add_rotation":
+        return AddRotationAction(description, influence_parameters, parameters)
+    elif type == "toggle_alpha_locked":
+        return ToggleAlphaLockedAction(description, influence_parameters, {})
+    elif type == "toggle_collapsed":
+        return ToggleCollapsedAction(description, influence_parameters, {})
+    elif type == "toggle_opacity":
+        return ToggleOpacityAction(description, influence_parameters, {})
+    elif type == "toggle_pinned_to_timeline":
+        return TogglePinnedToTimelineAction(description, influence_parameters, {})
+    elif type == "toggle_visible":
+        return ToggleVisibleAction(description, influence_parameters, {})
+
     raise ValueError("action name should be valid")
 
 def append_not_none(dictionary, key, value):
     if value is not None:
         return {**dictionary, **{ key: value }}
     return dictionary
+
+def position_to_tuple(position):
+    position = position.split(",", 1)
+    return (int(position[0]), int(position[1]))
 
 def read_config(config_path):
     actions = []
@@ -259,8 +335,20 @@ def read_config(config_path):
                 value = config.getboolean(description, "value", fallback=None)
             elif type == "set_visible":
                 value = config.getboolean(description, "value", fallback=None)
+            elif type == "remove":
+                value = config.getboolean(description, "value", fallback=None)
+            elif type == "set_position":
+                value = position_to_tuple(config.get(description, "value", fallback=None))
+            elif type == "add_position":
+                value = position_to_tuple(config.get(description, "value", fallback=None))
+            elif type == "multiply_position":
+                value = position_to_tuple(config.get(description, "value", fallback=None))
+            elif type == "add_rotation":
+                value = config.getfloat(description, "value", fallback=None)
+            elif type in ["toggle_alpha_locked", "toggle_collapsed", "toggle_opacity", "toggle_pinned_to_timeline", "toggle_visible"]:
+                pass
         except ValueError:
-            error("value should be valid")
+            error(f"value should be valid {value}")
             return
         except configparser.InterpolationSyntaxError:
             error("interpolation should be valid")
@@ -294,3 +382,4 @@ def main():
         if actions is None:
             return
         execute_actions(actions, document.topLevelNodes())
+        document.refreshProjection()
