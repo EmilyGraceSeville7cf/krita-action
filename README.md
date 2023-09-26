@@ -17,6 +17,8 @@ To be able to use IntelliSence hints in YAML add
 `# yaml-language-server: $schema=https://raw.githubusercontent.com/EmilyGraceSeville7cf/krita-action/main/action.json`
 as the first string and install [YAML][yaml] extension.
 
+![image](https://github.com/EmilyGraceSeville7cf/krita-action/assets/42812113/1dd7b82b-0a4a-4c24-82c6-b8a5be54112b)
+
 [converter]: https://marketplace.visualstudio.com/items?itemName=petli-full.json-to-yaml-and-more
 [schema]: https://github.com/EmilyGraceSeville7cf/krita-action/blob/main/action.json
 [yaml]: https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml
